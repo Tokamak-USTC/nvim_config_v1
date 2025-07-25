@@ -1,0 +1,80 @@
+return {
+  "folke/which-key.nvim",
+  dependencies = { "echasnovski/mini.icons" },
+  event = "VeryLazy",
+  opts = {
+    preset = "helix",
+    spec = {
+      {
+        mode = { "n", "v" },
+        { "<leader>a", group = "Ai", icon = { icon = " ", color = "yellow" } },
+        { "<leader>c", group = "Code" },
+        { "<leader>f", group = "File/Find" },
+        { "<leader>g", group = "Git" },
+        { "<leader>s", group = "Search" },
+        { "<leader>t", group = "Tools", icon = { icon = " ", color = "grey" } },
+        { "<leader>x", group = "Execute", icon = { icon = " ", color = "green" } },
+        { "<leader>q", group = "Session" },
+        { "<leader>xl", group = "Lua", icon = { icon = "󰢱 ", color = "azure" } },
+        { "<leader><Tab>", group = "Tab" },
+        { "[", group = "prev" },
+        { "]", group = "next" },
+        { "g", group = "goto" },
+        { "gs", group = "surround" },
+        { "z", group = "fold" },
+        {
+          "<leader>b",
+          group = "Buffer",
+          expand = function()
+            return require("which-key.extras").expand.buf()
+          end,
+        },
+        {
+          "<leader>w",
+          group = "Windows",
+          proxy = "<C-w>",
+          expand = function()
+            return require("which-key.extras").expand.win()
+          end,
+        },
+        { "gx", desc = "Open with system app", icon = { icon = "", color = "azure" } },
+      },
+      {
+        mode = { "n" },
+        { "<leader>:", icon = { icon = " ", color = "azure" }, desc = "Command History" },
+        { "<leader>nd", icon = { icon = " ", color = "red" } },
+        { "g,", desc = "Go to newer change position" },
+        { "g;", desc = "Go to older change position" },
+      },
+    },
+
+    icons = {
+      rules = {
+        -- { pattern = "debug", icon = " ", color = "red" },
+        -- { pattern = "root", icon = " ", color = "yellow" },
+        { plugin = "telescope.nvim", pattern = "telescope", icon = " ", color = "blue" },
+        { plugin = "copilot.lua", icon = " ", color = "yellow" },
+        { plugin = "CopilotChat.nvim", icon = " ", color = "yellow" },
+        { plugin = "noice.nvim", pattern = "noice", icon = " ", color = "red" },
+        { plugin = "mason.nvim", pattern = "mason", icon = " ", color = "grey" },
+        { plugin = "trouble.nvim", icon = " ", color = "orange" },
+        { pattern = "explorer", icon = " ", color = "red" },
+        { pattern = "terminal", icon = " ", color = "cyan" },
+        { pattern = "execute", icon = " ", color = "green" },
+        { pattern = "code", icon = " ", color = "orange" },
+        { pattern = "buffer", icon = " ", color = "cyan" },
+        { pattern = "file", icon = " ", color = "yellow" },
+        { pattern = "window", icon = " ", color = "azure" },
+        { pattern = "tab", icon = " ", color = "purple" },
+        { pattern = "search", icon = " ", color = "blue" },
+        { pattern = "git", icon = " ", color = "yellow" },
+        { pattern = "lazy", icon = "󰒲 ", color = "grey" },
+        { pattern = "session", icon = " ", color = "azure" },
+        { pattern = "change", icon = " ", color = "orange" },
+        { pattern = "rename", icon = " ", color = "orange" },
+        { pattern = "left", icon = " ", color = "azure" },
+        { pattern = "right", icon = " ", color = "azure" },
+      },
+    },
+  },
+}
