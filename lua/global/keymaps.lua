@@ -35,10 +35,10 @@ vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" 
 vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- quick execution
-vim.keymap.set("n", "<leader>xs", "<cmd>source %<cr>", { desc = "Source current file" })
-vim.keymap.set("n", "<leader>xlf", "<cmd>luafile %<cr>", { desc = "Execute lua file" })
-vim.keymap.set("n", "<leader>xll", "<cmd>.lua<cr>", { desc = "Execute lua line" })
-vim.keymap.set("v", "<leader>xl", ":lua<cr>", { desc = "Execute selection" })
+-- vim.keymap.set("n", "<leader>xs", "<cmd>source %<cr>", { desc = "Source current file" })
+-- vim.keymap.set("n", "<leader>xlf", "<cmd>luafile %<cr>", { desc = "Execute lua file" })
+-- vim.keymap.set("n", "<leader>xll", "<cmd>.lua<cr>", { desc = "Execute lua line" })
+-- vim.keymap.set("v", "<leader>xl", ":lua<cr>", { desc = "Execute selection" })
 
 -- del
 vim.keymap.del("n", "grn")
