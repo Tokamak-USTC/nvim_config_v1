@@ -3,8 +3,9 @@ return {
   event = "BufReadPost",
   opts = {
     formatters_by_ft = {
-      lua = { "stylua" },
       cpp = { "clang-format" },
+      lua = { "stylua" },
+      javascript = { "prettier" },
     },
   },
   keys = {
