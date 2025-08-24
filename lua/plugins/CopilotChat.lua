@@ -19,7 +19,7 @@ return {
         auto_insert_mode = true,
         question_header = "  " .. user .. " ",
         answer_header = "  Copilot ",
-        error_header = " Error ",
+        error_header = "  Error ",
         show_help = false,
         insert_at_end = false,
         -- references_display = "write",
