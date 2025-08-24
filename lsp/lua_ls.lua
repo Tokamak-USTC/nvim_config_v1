@@ -1,7 +1,6 @@
 return {
   cmd = { "lua-language-server" },
   filetypes = { "lua" },
-  root_makers = { ".git" },
   settings = {
     Lua = {
       runtime = {

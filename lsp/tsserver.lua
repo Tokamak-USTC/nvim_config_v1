@@ -4,7 +4,6 @@ return {
   root_markers = {
     "package.json",
     "tsconfig.json",
-    ".git",
   },
   single_file_support = true,
 }

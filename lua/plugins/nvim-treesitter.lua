@@ -3,7 +3,7 @@ return {
   event = "VeryLazy",
   main = "nvim-treesitter.configs",
   opts = {
-    ensure_installed = { "lua", "cpp", "markdown", "html" },
+    ensure_installed = { "lua", "cpp", "go", "markdown", "html" },
     highlight = { enable = true },
   },
 }

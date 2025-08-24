@@ -5,6 +5,7 @@ return {
     formatters_by_ft = {
       cpp = { "clang-format" },
       lua = { "stylua" },
+      go = { "gofmt" },
       javascript = { "prettier" },
     },
   },
