@@ -45,7 +45,7 @@ vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.conceallevel = 2
 
---file
+-- file
 vim.o.confirm = true
 vim.o.undofile = true
 vim.o.undolevels = 1000
