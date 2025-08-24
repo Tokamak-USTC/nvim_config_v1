@@ -96,9 +96,17 @@ return {
     { "<leader>bo", function() Snacks.bufdelete.other() end, desc = "Delete other buffers", mode = { "n" }, },
 		{ "<C-/>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" }, },
 		{ "<C-_>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" }, },
-		{ "<leader>e", function() Snacks.explorer({ cwd = require("global.utils.bufdir").current_bufdir() }) end, desc = "Explorer Snacks", mode = { "n" }, },
 		{ "<M-n>", function() Snacks.words.jump(vim.v.count1, true) end, desc = "Next Reference", mode = { "n" }, },
 		{ "<M-p>", function() Snacks.words.jump(-vim.v.count1, true) end, desc = "Prev Reference", mode = { "n" }, },
     { "<leader>gl", function() Snacks.lazygit() end, desc = "Lazygit", mode = { "n" }, },
+    {
+      "<leader>e",
+      function()
+        local rootdir = require("global.utils.rootdir")
+        Snacks.explorer({ cwd = rootdir() })
+      end,
+      desc = "Explorer Snacks",
+      mode = { "n" },
+    },
 	},
 }
