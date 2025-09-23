@@ -42,6 +42,7 @@ return {
     { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
     { "<leader><space>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
     { "<leader>sA", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
+    { "<leader>sb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
     { "<leader>sg", "<cmd>Telescope live_grep<cr>", desc = "Grep (cwd)" },
     { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
     { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },

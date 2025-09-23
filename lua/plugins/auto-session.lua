@@ -1,5 +1,6 @@
 return {
   "rmagatti/auto-session",
+  enabled = false,
   -- lazy = false,
   event = "VeryLazy",
   init = function()
