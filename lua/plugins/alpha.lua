@@ -10,7 +10,6 @@ return {
     dashboard.section.buttons.val = {
       dashboard.button("f", " " .. " Find Things", "<cmd>Telescope<cr>"),
       dashboard.button("r", " " .. " Recent Files", "<cmd>Telescope oldfiles<cr>"),
-      dashboard.button("s", " " .. " Restore Session", "<cmd>SessionSearch<cr>"),
       dashboard.button("c", " " .. " Config", function()
         require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("config") })
       end),
@@ -26,6 +25,7 @@ return {
     end
     dashboard.section.footer.opts.hl = "AlphaText"
     dashboard.opts.layout[1].val = 5
+    dashboard.opts.layout[3].val = 3
     table.insert(dashboard.opts.layout, 5, { type = "padding", val = 2 })
 
     return dashboard
