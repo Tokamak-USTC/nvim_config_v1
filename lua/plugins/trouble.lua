@@ -6,6 +6,9 @@ return {
       symbols = {
         icons = {
           --- @type trouble.Indent.symbols
+          indent = {
+            last = "╰╴", -- rounded
+          },
           folder_closed = " ",
           folder_open = " ",
           kinds = {
@@ -38,16 +41,13 @@ return {
           },
         },
         win = { position = "right", size = 0.25 },
+        keys = { s = false },
       },
     },
   }, -- for default options, refer to the configuration section for custom setup.
   cmd = "Trouble",
   keys = {
-    {
-      "<leader>cs",
-      -- require("trouble").toggle({ mode = "symbols" }),
-      "<cmd>Trouble symbols toggle<cr>",
-      desc = "List Symbols",
-    },
+    { "<leader>cs", "<cmd>Trouble symbols toggle<cr>", desc = "List Symbols" },
+    { "<leader>cd", "<cmd>Trouble diagnostics toggle<cr>", desc = "List Diagnostics" },
   },
 }
