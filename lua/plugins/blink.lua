@@ -30,6 +30,13 @@ return {
     },
     cmdline = {
       enabled = true,
+      keymap = {
+        -- recommended, as the default keymap will only show and select the next item
+        ["<Tab>"] = { "show", "accept" },
+        ["<M-p>"] = { "select_prev", "fallback_to_mappings" },
+        ["<M-n>"] = { "select_next", "fallback_to_mappings" },
+      },
+      completion = { menu = { auto_show = true } },
     },
     completion = {
       menu = {
