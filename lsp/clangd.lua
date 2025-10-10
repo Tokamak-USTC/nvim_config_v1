@@ -8,12 +8,12 @@ return {
     offsetEncoding = { "utf-16" },
   },
   cmd = { "clangd" },
-  filetypes = { "c", "cpp" },
+  filetypes = { "c", "cpp", "cuda" },
   root_markers = {
+    "compile_commands.json",
     ".clangd",
     ".clang-tidy",
     ".clang-format",
-    "compile_commands.json",
   },
   single_file_support = true,
 }
