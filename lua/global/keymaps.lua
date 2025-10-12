@@ -6,10 +6,10 @@ vim.g.maplocalleader = "\\"
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>")
 
 -- better hjkl movement
-vim.keymap.set("n", "<M-h>", "12h", {})
-vim.keymap.set("n", "<M-j>", "12j", {})
-vim.keymap.set("n", "<M-k>", "12k", {})
-vim.keymap.set("n", "<M-l>", "12l", {})
+vim.keymap.set({ "n", "v" }, "<M-h>", "12h", {})
+vim.keymap.set({ "n", "v" }, "<M-j>", "12j", {})
+vim.keymap.set({ "n", "v" }, "<M-k>", "12k", {})
+vim.keymap.set({ "n", "v" }, "<M-l>", "12l", {})
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
