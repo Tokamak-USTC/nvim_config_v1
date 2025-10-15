@@ -7,7 +7,9 @@ vim.api.nvim_create_user_command("LspInfo", ":checkhealth vim.lsp", { desc = "Al
 
 vim.api.nvim_create_user_command("LspRestart", function()
   vim.lsp.stop_client(vim.lsp.get_clients())
-  vim.cmd("edit")
+  if vim.api.nvim_buf_get_name(0) ~= "" then
+    vim.cmd("edit")
+  end
 end, { desc = "Restart all LSP clients and reload buffer" })
 
 vim.lsp.config("*", {
