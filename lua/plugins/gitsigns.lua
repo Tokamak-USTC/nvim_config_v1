@@ -17,5 +17,9 @@ return {
       topdelete = { text = "▎" },
       changedelete = { text = "▎" },
     },
+    current_line_blame_opts = { delay = 0 },
+  },
+  keys = {
+    { "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle blame line" },
   },
 }

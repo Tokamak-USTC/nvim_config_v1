@@ -1,18 +1,6 @@
 return {
   "folke/noice.nvim",
-  dependencies = {
-    "MunifTanjim/nui.nvim",
-    {
-      "rcarriga/nvim-notify",
-      opts = {
-        fps = 60,
-        max_width = 60,
-        max_height = 15,
-        timeout = 1500,
-        top_down = true,
-      },
-    },
-  },
+  dependencies = { "MunifTanjim/nui.nvim" },
   event = "VeryLazy",
   opts = {
     -- add any options here
