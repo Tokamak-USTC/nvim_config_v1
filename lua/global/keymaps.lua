@@ -34,6 +34,9 @@ vim.keymap.set("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
+-- misc
+vim.keymap.set("n", "<leader>/", "/<C-r>+", { desc = "Search last yank" })
+
 -- quick execution
 -- vim.keymap.set("n", "<leader>xs", "<cmd>source %<cr>", { desc = "Source current file" })
 -- vim.keymap.set("n", "<leader>xlf", "<cmd>luafile %<cr>", { desc = "Execute lua file" })
