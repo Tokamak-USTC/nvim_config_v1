@@ -6,6 +6,10 @@ return {
   opts = {
     animate = { enabled = false },
     scroll = { enabled = false },
+    notifier = {
+      enabled = true,
+      timeout = 2000,
+    },
     statuscolumn = {
       enabled = true,
       folds = { open = true, git_hl = true },
