@@ -6,11 +6,12 @@ vim.lsp.enable("lua_ls")
 vim.api.nvim_create_user_command("LspInfo", ":checkhealth vim.lsp", { desc = "Alias to `:checkhealth vim.lsp`" })
 
 vim.api.nvim_create_user_command("LspRestart", function()
-  vim.lsp.stop_client(vim.lsp.get_clients())
-  if vim.api.nvim_buf_get_name(0) ~= "" then
-    vim.cmd("edit")
+  local clients = vim.lsp.get_clients()
+  vim.lsp.stop_client(clients)
+  for client in vim.iter(clients) do
+    vim.schedule_wrap(vim.lsp.enable)(client.name)
   end
-end, { desc = "Restart all LSP clients and reload buffer" })
+end, { desc = "Restart all LSP clients" })
 
 vim.lsp.config("*", {
   root_markers = { ".git" },
