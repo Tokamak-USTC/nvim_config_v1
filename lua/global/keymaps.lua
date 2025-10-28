@@ -35,7 +35,7 @@ vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" 
 vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- misc
-vim.keymap.set("n", "<leader>/", "/<C-r>+", { desc = "Search last yank" })
+vim.keymap.set("n", "<leader>/", "/<C-r>+", { desc = "Search Last Yank" })
 
 -- quick execution
 -- vim.keymap.set("n", "<leader>xs", "<cmd>source %<cr>", { desc = "Source current file" })
