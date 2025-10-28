@@ -13,7 +13,7 @@ M.glitch = function()
   local counter = 0
 
   return function()
-    local curr_frame
+    local curr_frame, curr_color
     if counter == stages[curr_stage].stage_length then
       curr_stage = curr_stage + 1
       if curr_stage > #stages then
@@ -23,15 +23,26 @@ M.glitch = function()
     end
     if stages[curr_stage].mode == "static" then
       curr_frame = original
-    elseif stages[curr_stage].mode == "forward" then
-      curr_frame = frames[1 + (stages[curr_stage].frame_start + counter) % #frames]
-    elseif stages[curr_stage].mode == "backward" then
-      curr_frame = frames[1 + (stages[curr_stage].frame_start - counter) % #frames]
-    elseif stages[curr_stage].mode == "random" then
-      curr_frame = frames[math.random(#frames)]
+      curr_color = 0
+    else
+      if stages[curr_stage].mode == "forward" then
+        curr_frame = frames[1 + (stages[curr_stage].frame_start + counter) % #frames]
+      elseif stages[curr_stage].mode == "backward" then
+        curr_frame = frames[1 + (stages[curr_stage].frame_start - counter) % #frames]
+      elseif stages[curr_stage].mode == "random" then
+        curr_frame = frames[math.random(#frames)]
+      end
+      local random = math.random()
+      if random < 0.75 then
+        curr_color = 0
+      elseif random < 0.9 then
+        curr_color = 1
+      else
+        curr_color = 2
+      end
     end
     counter = counter + 1
-    return curr_frame
+    return curr_frame, curr_color
   end
 end
 

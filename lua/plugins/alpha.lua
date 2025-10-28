@@ -66,9 +66,16 @@ return {
       pattern = "AlphaReady",
       callback = function()
         local glitch = require("global.ui.animation").glitch()
-        vim.g.alphatimer = vim.fn.timer_start(32, function()
+        vim.g.alphatimer = vim.fn.timer_start(30, function()
           local curpos = vim.api.nvim_win_get_cursor(0)
-          local logo = glitch()
+          local logo, color = glitch()
+          if color == 0 then
+            vim.cmd([[ highlight AlphaLogo guifg=#30D7FF ]])
+          elseif color == 1 then
+            vim.cmd([[ highlight AlphaLogo guifg=#FFC070 ]])
+          else
+            vim.cmd([[ highlight AlphaLogo guifg=#3000FF ]])
+          end
           dashboard.section.header.val = vim.split(logo, "\n")
           pcall(vim.cmd.AlphaRedraw)
           vim.api.nvim_win_set_cursor(0, curpos)
