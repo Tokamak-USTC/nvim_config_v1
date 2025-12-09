@@ -22,10 +22,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     -- stylua: ignore
-		vim.keymap.set( "n", "gd", require("telescope.builtin").lsp_definitions, { buffer = args.buf, desc = "LSP: Go to definition" })
+		vim.keymap.set( "n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "LSP: Go to definition" })
 
     -- stylua: ignore
-		vim.keymap.set( "n", "gr", require("telescope.builtin").lsp_references, { buffer = args.buf, desc = "LSP: Go to references" })
+		vim.keymap.set( "n", "gr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "LSP: Go to references" })
 
     -- stylua: ignore
 		vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename Symbol" })

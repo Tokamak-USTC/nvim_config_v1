@@ -7,12 +7,11 @@ return {
     local dashboard = require("alpha.themes.dashboard")
     local logo = require("global.ui.ascii_arts").Tokamak.original
     dashboard.section.header.val = vim.split(logo, "\n")
+    -- stylua: ignore
     dashboard.section.buttons.val = {
-      dashboard.button("f", " " .. " Find Things", "<cmd>Telescope<cr>"),
-      dashboard.button("r", " " .. " Recent Files", "<cmd>Telescope oldfiles<cr>"),
-      dashboard.button("c", " " .. " Config", function()
-        require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("config") })
-      end),
+      dashboard.button("f", " " .. " Find Things", function() Snacks.picker() end),
+      dashboard.button("r", " " .. " Recent Files", function() Snacks.picker.recent() end),
+      dashboard.button("c", " " .. " Config", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end),
       dashboard.button("l", " " .. " Lazy", "<cmd>Lazy<cr>"),
       dashboard.button("q", " " .. " Quit", "<cmd>qa<cr>"),
     }

@@ -14,8 +14,6 @@ return {
         { "<leader>s", group = "Search" },
         { "<leader>t", group = "Tools", icon = { icon = " ", color = "grey" } },
         { "<leader>q", group = "Session" },
-        -- { "<leader>x", group = "Execute", icon = { icon = " ", color = "green" } },
-        -- { "<leader>xl", group = "Lua", icon = { icon = "󰢱 ", color = "azure" } },
         { "<leader><Tab>", group = "Tab" },
         { "[", group = "prev" },
         { "]", group = "next" },
@@ -41,6 +39,8 @@ return {
       },
       {
         mode = { "n" },
+        { "<leader>e", icon = { icon = " ", color = "red" } },
+        { "<leader>gl", icon = { icon = " ", color = "green" } },
         { "<leader>:", icon = { icon = " ", color = "azure" }, desc = "Command History" },
         { "<leader>nd", icon = { icon = " ", color = "red" } },
         { "g,", desc = "Go to newer change position" },
@@ -50,9 +50,7 @@ return {
 
     icons = {
       rules = {
-        -- { pattern = "debug", icon = " ", color = "red" },
-        -- { pattern = "root", icon = " ", color = "yellow" },
-        { plugin = "telescope.nvim", pattern = "telescope", icon = " ", color = "blue" },
+        { plugin = "snacks.nvim", icon = " ", color = "blue" },
         { plugin = "copilot.lua", icon = " ", color = "yellow" },
         { plugin = "CopilotChat.nvim", icon = " ", color = "yellow" },
         { plugin = "noice.nvim", pattern = "noice", icon = " ", color = "red" },

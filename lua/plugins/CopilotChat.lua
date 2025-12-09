@@ -5,7 +5,7 @@ return {
     dependencies = {
       { "github/copilot.lua" }, -- or zbirenbaum/copilot.lua
       { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-      { "nvim-telescope/telescope.nvim" },
+      { "folke/snacks.nvim" },
     },
     cmd = "CopilotChat",
     help = true,
