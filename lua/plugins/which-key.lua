@@ -51,8 +51,6 @@ return {
     icons = {
       rules = {
         { plugin = "snacks.nvim", icon = " ", color = "blue" },
-        { plugin = "copilot.lua", icon = " ", color = "yellow" },
-        { plugin = "CopilotChat.nvim", icon = " ", color = "yellow" },
         { plugin = "noice.nvim", pattern = "noice", icon = " ", color = "red" },
         { plugin = "mason.nvim", pattern = "mason", icon = " ", color = "grey" },
         { plugin = "trouble.nvim", icon = " ", color = "orange" },

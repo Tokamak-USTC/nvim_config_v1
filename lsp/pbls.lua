@@ -1,5 +1,5 @@
 return {
   cmd = { "pbls" },
   filetypes = { "proto" },
-  root_makers = { ".pbls.toml", ".git" },
+  root_markers = { ".pbls.toml", ".git" },
 }

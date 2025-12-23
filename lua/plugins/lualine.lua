@@ -1,19 +1,3 @@
-local function copilot_status()
-  local icons = {
-    InProgress = { icon = "", color = { fg = Snacks.util.color("DiagnosticWarn") } },
-    Warning = { icon = "", color = { fg = Snacks.util.color("DiagnosticError") } },
-    Active = { icon = "", color = { fg = Snacks.util.color("Special") } },
-    Inactive = { icon = "", color = { fg = "#602020" } },
-  }
-  local clients = package.loaded["copilot"] and vim.lsp.get_clients({ name = "copilot" }) or {}
-  if #clients > 0 then
-    local status = require("copilot.api").status.data.status
-    return icons[status] or icons.Active
-  else
-    return icons.Inactive
-  end
-end
-
 return {
   "nvim-lualine/lualine.nvim",
   event = "BufEnter",
@@ -61,12 +45,6 @@ return {
         lualine_c = { "filename" },
         lualine_x = {
           Snacks.profiler.status(),
-          -- stylua: ignore
-          {
-            function() return " " .. copilot_status().icon .. " " end,
-            cond = function() return true end,
-            color = function() return copilot_status().color end,
-          },
           -- stylua: ignore
           {
             function() return require("noice").api.status.command.get() end,
