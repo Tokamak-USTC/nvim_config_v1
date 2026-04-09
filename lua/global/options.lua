@@ -50,3 +50,6 @@ vim.o.confirm = true
 vim.o.undofile = true
 vim.o.undolevels = 1000
 vim.o.swapfile = false
+
+-- languages
+vim.g.markdown_recommended_style = 0
