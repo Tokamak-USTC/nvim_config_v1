@@ -1,3 +1,5 @@
+---@module "snacks"
+
 vim.lsp.set_log_level("OFF")
 
 vim.lsp.enable("clangd")
