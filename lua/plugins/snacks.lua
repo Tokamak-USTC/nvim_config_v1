@@ -1,3 +1,5 @@
+---@module "snacks"
+
 local outline_layout = {
   layout = {
     box = "horizontal",
@@ -20,6 +22,7 @@ local outline_layout = {
   },
 }
 
+---@type snacks.picker.Config
 local picker_config = {
   enabled = true,
   layout = "telescope",
@@ -115,7 +118,6 @@ return {
   "Tokamak-USTC/snacks.nvim",
   priority = 1000,
   lazy = false,
-  ---@type snacks.Config
   opts = {
     animate = { enabled = false },
     scroll = { enabled = false },
