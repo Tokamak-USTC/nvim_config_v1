@@ -10,7 +10,7 @@ return {
         -- component_separators = "",
         section_separators = { left = "", right = "" },
         disabled_filetypes = {
-          statusline = { "alpha" },
+          statusline = { "alpha", "snacks_dashboard" },
           winbar = {},
         },
         always_divide_middle = true,
