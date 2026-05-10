@@ -40,6 +40,13 @@ return {
       hl.SnacksPickerInputTitle = { fg = c.border_highlight, bg = c.bg }
       hl.SnacksPickerBoxTitle = { fg = c.border_highlight, bg = c.bg }
       hl.SnacksPickerInputFooter = { fg = c.border_highlight, bg = c.bg }
+      hl.SnacksDashboardLogo = { fg = "#30D7FF" }
+      hl.SnacksDashboardText = { fg = "#1FB7E0" }
+      hl.SnacksDashboardDesc = { fg = "#1FB7E0" }
+      hl.SnacksDashboardIcon = { fg = "#1FB7E0" }
+      hl.SnacksDashboardKey = { fg = "#1FB7E0" }
+      hl.SnacksDashboardFooter = { fg = "#1FB7E0" }
+      hl.SnacksDashboardSpecial = { fg = "#1FB7E0" }
 
       -- trouble
       hl.TroubleNormal = { bg = c.bg }

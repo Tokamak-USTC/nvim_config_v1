@@ -34,7 +34,7 @@ return {
     {
       "<c-.>",
       function()
-        require("sidekick.cli").toggle({ name = "codex", focus = true })
+        require("sidekick.cli").toggle()
       end,
       desc = "Sidekick Toggle",
       mode = { "n", "t", "i", "x" },
@@ -42,7 +42,7 @@ return {
     {
       "<leader>aa",
       function()
-        require("sidekick.cli").toggle({ name = "codex", focus = true })
+        require("sidekick.cli").toggle()
       end,
       desc = "Sidekick Toggle CLI",
     },
