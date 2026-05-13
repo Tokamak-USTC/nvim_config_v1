@@ -25,6 +25,9 @@ vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to other buff
 vim.keymap.set("n", "<leader>bl", "<cmd>setlocal buflisted<cr>", { desc = "List current buffer" })
 vim.keymap.set("n", "<leader>bh", "<cmd>setlocal nobuflisted<cr>", { desc = "Hide current buffer" })
 
+-- window management
+vim.keymap.set("n", "<C-w>n", "<cmd>vnew<cr>", { desc = "Create a new window" })
+
 -- tabs
 vim.keymap.set("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 vim.keymap.set("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
@@ -36,7 +39,7 @@ vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous
 
 -- misc
 vim.keymap.set("n", "<leader>/", "/<C-r>+", { desc = "Search Last Yank" })
-
+vim.keymap.set("n", "q", "<Nop>", { desc = "Disable macro recording" })
 -- quick execution
 -- vim.keymap.set("n", "<leader>xs", "<cmd>source %<cr>", { desc = "Source current file" })
 -- vim.keymap.set("n", "<leader>xlf", "<cmd>luafile %<cr>", { desc = "Execute lua file" })
