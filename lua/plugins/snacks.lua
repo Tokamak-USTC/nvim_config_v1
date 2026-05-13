@@ -206,7 +206,7 @@ local snacks_keys = {
   { "<leader>sf", function() Snacks.picker.files() end, desc = "Find Files", },
   { "<leader>sg", function() Snacks.picker.grep() end, desc = "Live Grep(cwd)" },
   { "<leader>sG", function() Snacks.picker.grep_buffers() end, desc = "Live Grep(Buffers)" },
-  { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
+  { "<leader>sh", function() Snacks.picker.help({ confirm = { action = "help", cmd = "vsplit" } }) end, desc = "Help Pages" },
   { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Key Maps" },
   { "<leader>sr", function() Snacks.picker.recent() end, desc = "Recent Files" },
   { "<leader>sp", function() Snacks.picker() end, desc = "Snacks Picker" },
