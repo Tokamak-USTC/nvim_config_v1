@@ -38,6 +38,7 @@ return {
       },
       {
         mode = { "n" },
+        { "<leader>ca", icon = { icon = " ", color = "orange" } },
         { "<leader>e", icon = { icon = " ", color = "red" } },
         { "<leader>gl", icon = { icon = " ", color = "green" } },
         { "<leader>:", icon = { icon = " ", color = "azure" }, desc = "Command History" },
