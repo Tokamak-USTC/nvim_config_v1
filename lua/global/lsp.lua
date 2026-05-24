@@ -24,14 +24,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    -- stylua: ignore
-		vim.keymap.set( "n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "LSP: Go to definition" })
 
-    -- stylua: ignore
-		vim.keymap.set( "n", "gr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "LSP: Go to references" })
-
-    -- stylua: ignore
-		vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename Symbol" })
+    vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "LSP: Go to definition" })
+    vim.keymap.set("n", "gr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "LSP: Go to references" })
+    vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename Symbol" })
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code Actions" })
 
     if client and client:supports_method("textDocument/foldingRange", args.buf) then
       local win = vim.api.nvim_get_current_win()
