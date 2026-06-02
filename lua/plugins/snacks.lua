@@ -87,7 +87,6 @@ local dashboard_keys = {
 local dashboard_config = {
   enabled = true,
   width = 60,
-  row = 5,
   preset = {
     keys = dashboard_keys,
   },
@@ -102,6 +101,7 @@ local dashboard_config = {
 local picker_config = {
   enabled = true,
   layout = "telescope",
+  show_delay = 50,
   win = {
     input = {
       keys = {
