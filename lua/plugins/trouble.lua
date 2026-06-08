@@ -1,6 +1,6 @@
 return {
   "folke/trouble.nvim",
-  evnet = "LspsAttach",
+  event = "LspAttach",
   opts = {
     modes = {
       symbols = {

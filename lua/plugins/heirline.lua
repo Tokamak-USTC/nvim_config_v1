@@ -109,7 +109,7 @@ return {
       file = { "BufEnter", "BufFilePost", "BufModifiedSet", "FileType" },
       cwd = { "DirChanged", "BufEnter", "WinEnter", "FocusGained" },
       cursor = { "CursorMoved", "CursorMovedI", "BufEnter", "WinEnter" },
-      diagnostics = { "DiagnosticChanged", "LspAttach", "LspDetach", "BufEnter", "BufWritePost", "InsertLeave" },
+      lsp = { "DiagnosticChanged", "LspAttach", "LspDetach", "BufEnter", "BufWritePost", "InsertLeave" },
     }
 
     local user_events = {
@@ -121,36 +121,32 @@ return {
         left_sep = "",
         transition_sep = "",
         right_sep = "",
-        padding = "",
       },
       left_mid = {
         left_sep = "",
         transition_sep = "",
         right_sep = "",
-        padding = "",
       },
       left_right = {
         left_sep = "",
         transition_sep = "",
         right_sep = "",
+        padding = " ",
       },
       right_left = {
         left_sep = "",
         transition_sep = "",
         right_sep = "",
-        padding = "",
       },
       right_mid = {
         left_sep = "",
         transition_sep = "",
         right_sep = "",
-        padding = "",
       },
       right_right = {
         left_sep = "",
         transition_sep = "",
         right_sep = "",
-        padding = "",
       },
     }
 
@@ -162,6 +158,7 @@ return {
     }
 
     local align = { provider = "%=" }
+    local trunc_point = { provider = "%<" }
     local diagnostic_icons = require("global.ui.icons").diagnostics
 
     local function safe_call(fn, default, ...)
@@ -241,7 +238,22 @@ return {
       }
     end
 
-    local redraw_statusline
+    local function current_lsp_clients()
+      if vim.lsp == nil then
+        return {}
+      end
+      return vim.lsp.get_clients({ bufnr = 0 }) or {}
+    end
+
+    local function has_buffer_lsp()
+      return not vim.tbl_isempty(current_lsp_clients())
+    end
+
+    local function redraw_statusline()
+      vim.schedule(function()
+        vim.cmd("redrawstatus")
+      end)
+    end
 
     local github_status = {
       reachable = nil,
@@ -348,6 +360,30 @@ return {
       return tostring(str):gsub("%%", "%%%%")
     end
 
+    local trouble_symbols
+    -- Lazily create and reuse trouble's statusline adapter for symbol breadcrumbs.
+    local function get_trouble_symbols()
+      if trouble_symbols ~= nil then
+        return trouble_symbols
+      end
+
+      local ok, trouble = pcall(require, "trouble")
+      if not ok then
+        return nil
+      end
+
+      trouble_symbols = trouble.statusline({
+        mode = "symbols",
+        groups = {},
+        title = false,
+        filter = { range = true },
+        format = "{kind_icon}{symbol.name:Normal}",
+        hl_group = "StatusLine",
+      })
+
+      return trouble_symbols
+    end
+
     local function capsule(capsule_opts)
       return {
         condition = function(self)
@@ -374,7 +410,7 @@ return {
           self._left_sep = resolve(capsule_opts.left_sep, self, "")
           self._transition_sep = resolve(capsule_opts.transition_sep, self, "")
           self._right_sep = resolve(capsule_opts.right_sep, self, "")
-          self._padding = resolve(capsule_opts.padding, self, " ")
+          self._padding = resolve(capsule_opts.padding, self, "")
           return text ~= ""
         end,
         update = capsule_opts.update,
@@ -444,7 +480,7 @@ return {
     end
 
     local function segment(segment_opts)
-      local function normalize_items(items)
+      local function normalize_items(items, raw_default)
         if items == nil then
           return {}
         end
@@ -458,10 +494,11 @@ return {
                   normalized[#normalized + 1] = {
                     text = tostring(text),
                     hl = item.hl,
+                    raw = item.raw == nil and raw_default or item.raw,
                   }
                 end
               else
-                normalized[#normalized + 1] = { text = tostring(item) }
+                normalized[#normalized + 1] = { text = tostring(item), raw = raw_default }
               end
             end
           end
@@ -472,13 +509,14 @@ return {
         if text == "" then
           return {}
         end
-        return { { text = text } }
+        return { { text = text, raw = raw_default } }
       end
 
       local function render_items(items)
         local rendered = {}
         for _, item in ipairs(items) do
-          local text = stl_escape(item.text)
+          -- `raw` items already contain valid statusline markup, so they must not be escaped.
+          local text = item.raw and item.text or stl_escape(item.text)
           if item.hl and item.hl ~= "" then
             rendered[#rendered + 1] = "%#" .. item.hl .. "#" .. text .. "%*"
           else
@@ -505,11 +543,11 @@ return {
           end
 
           local items = resolve(segment_opts.items or segment_opts.text, self, {})
-          self._items = normalize_items(items)
+          self._items = normalize_items(items, resolve(segment_opts.raw, self, false))
           self._icon = resolve(segment_opts.icon, self, "")
           self._fg = resolve(segment_opts.fg, self, colors.muted)
           self._icon_fg = resolve(segment_opts.icon_fg, self, self._fg)
-          self._padding = resolve(segment_opts.padding, self, " ")
+          self._padding = resolve(segment_opts.padding, self, "")
           return #self._items > 0
         end,
         update = segment_opts.update,
@@ -600,24 +638,77 @@ return {
       return changed
     end
 
-    local Branch = segment({
+    local Lsp = segment({
       condition = function()
-        local git = current_git_status()
-        return git and git.head
+        return has_buffer_lsp()
       end,
-      icon = "",
+      icon = "󰓙",
       text = function()
-        local git = current_git_status()
-        if not git or not git.head then
-          return ""
+        local clients = current_lsp_clients()
+        if vim.tbl_isempty(clients) then
+          return {}
         end
 
-        return truncate(git.head, 32)
+        local names = {}
+        local seen = {}
+        for _, client in ipairs(clients) do
+          if client.name and client.name ~= "" and not seen[client.name] then
+            seen[client.name] = true
+            names[#names + 1] = client.name
+          end
+        end
+
+        if vim.tbl_isempty(names) then
+          return {}
+        end
+
+        return truncate(table.concat(names, ", "), 24)
       end,
-      icon_fg = colors.green,
-      fg = colors.green,
-      padding = "  ",
-      update = git_status_update,
+      icon_fg = colors.muted,
+      fg = colors.muted,
+      padding = " ",
+      update = update_events.lsp,
+    })
+
+    local Diagnostics = segment({
+      condition = function()
+        return rawget(vim, "diagnostic") ~= nil and has_buffer_lsp()
+      end,
+      items = function()
+        local counts = current_diagnostic_counts()
+        local parts = {}
+        add_count_item(parts, counts.error, diagnostic_icons.Error .. " ", "DiagnosticError")
+        add_count_item(parts, counts.warn, diagnostic_icons.Warn .. " ", "DiagnosticWarn")
+        add_count_item(parts, counts.info, diagnostic_icons.Info .. " ", "DiagnosticInfo")
+        add_count_item(parts, counts.hint, diagnostic_icons.Hint .. " ", "DiagnosticHint")
+
+        return parts
+      end,
+      icon_fg = colors.surface,
+      fg = colors.purple,
+      padding = " ",
+      update = update_events.lsp,
+    })
+
+    local LspSymbols = segment({
+      condition = function()
+        local lsp_symbols = get_trouble_symbols()
+        return has_buffer_lsp() and vim.b.trouble_lualine ~= false and lsp_symbols and lsp_symbols.has()
+      end,
+      text = function()
+        local lsp_symbols = get_trouble_symbols()
+        if not lsp_symbols or not lsp_symbols.has() then
+          return {}
+        end
+        return {
+          { text = lsp_symbols.get(), raw = true },
+        }
+      end,
+      icon_fg = colors.cyan,
+      fg = colors.grey,
+      -- WARN: Intentionally leave `update` unset here.
+      -- Keep this component out of heirline's component-level update cache.
+      -- trouble.statusline() already drives redrawstatus() on symbol changes.
     })
 
     local Diff = segment({
@@ -639,58 +730,28 @@ return {
       end,
       icon_fg = colors.orange,
       fg = colors.orange,
+      padding = " ",
       update = git_status_update,
     })
 
-    local Diagnostics = segment({
+    local Branch = segment({
       condition = function()
-        return rawget(vim, "diagnostic") ~= nil
+        local git = current_git_status()
+        return git and git.head
       end,
-      items = function()
-        local counts = current_diagnostic_counts()
-        local parts = {}
-        add_count_item(parts, counts.error, diagnostic_icons.Error .. " ", "DiagnosticError")
-        add_count_item(parts, counts.warn, diagnostic_icons.Warn .. " ", "DiagnosticWarn")
-        add_count_item(parts, counts.info, diagnostic_icons.Info .. " ", "DiagnosticInfo")
-        add_count_item(parts, counts.hint, diagnostic_icons.Hint .. " ", "DiagnosticHint")
-
-        return parts
-      end,
-      icon_fg = colors.surface,
-      fg = colors.purple,
-      update = update_events.diagnostics,
-    })
-
-    local Lsp = segment({
-      condition = function()
-        return vim.lsp ~= nil
-      end,
-      icon = "󰓙",
+      icon = "",
       text = function()
-        local bufnr = 0
-        local clients = vim.lsp.get_clients({ bufnr = bufnr })
-        if not clients or vim.tbl_isempty(clients) then
-          return {}
+        local git = current_git_status()
+        if not git or not git.head then
+          return ""
         end
 
-        local names = {}
-        local seen = {}
-        for _, client in ipairs(clients) do
-          if client.name and client.name ~= "" and not seen[client.name] then
-            seen[client.name] = true
-            names[#names + 1] = client.name
-          end
-        end
-
-        if vim.tbl_isempty(names) then
-          return {}
-        end
-
-        return truncate(table.concat(names, ", "), 24)
+        return truncate(git.head, 32)
       end,
-      icon_fg = colors.muted,
-      fg = colors.muted,
-      update = update_events.diagnostics,
+      icon_fg = colors.green,
+      fg = colors.green,
+      padding = " ",
+      update = git_status_update,
     })
 
     local GitHub = capsule(extend_opts(capsule_presets.right_left, {
@@ -733,21 +794,17 @@ return {
       ViMode,
       Directory,
       FileName,
-      Branch,
-      Diff,
-      align,
-      Diagnostics,
       Lsp,
+      Diagnostics,
+      trunc_point,
+      LspSymbols,
+      align,
+      Diff,
+      Branch,
       GitHub,
       Location,
       Clock,
     }
-
-    redraw_statusline = function()
-      vim.schedule(function()
-        vim.cmd("redrawstatus")
-      end)
-    end
 
     local function apply_statusline_bg()
       local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
