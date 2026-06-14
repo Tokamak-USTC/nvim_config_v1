@@ -261,19 +261,23 @@ return {
     styles = {
       terminal = {
         keys = {
+          -- Use <Esc> to leave terminal mode; terminal apps will not receive it.
           term_normal = {
-            "<M-n>",
+            "<Esc>",
             function()
               vim.cmd("stopinsert")
             end,
             mode = "t",
             expr = false,
-            desc = "Escape to normal mode",
+            desc = "Exit Terminal Mode",
           },
         },
       },
       lazygit = {
         backdrop = 100,
+        keys = {
+          term_normal = false,
+        },
       },
     },
   },

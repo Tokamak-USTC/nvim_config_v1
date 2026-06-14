@@ -64,6 +64,7 @@ return {
         { pattern = "window", icon = " ", color = "azure" },
         { pattern = "tab", icon = " ", color = "purple" },
         { pattern = "search", icon = " ", color = "blue" },
+        { pattern = "paste", icon = " ", color = "purple" },
         { pattern = "git", icon = " ", color = "green" },
         { pattern = "lazy", icon = "󰒲 ", color = "grey" },
         { pattern = "session", icon = " ", color = "azure" },
