@@ -35,6 +35,8 @@ local function patch_tmux_start()
   Tmux.start = function(self)
     local ret = original_start(self)
     if not self.external and ret and ret.cmd then
+      table.insert(ret.cmd, 2, "-f")
+      table.insert(ret.cmd, 3, "/dev/null")
       vim.list_extend(ret.cmd, { ";", "set-option", "destroy-unattached", "on" })
     end
     return ret
@@ -86,7 +88,7 @@ return {
           end
         end,
         keys = {
-          stopinsert = { "<Esc>", "stopinsert", mode = "t", desc = "enter normal mode" },
+          stopinsert = { "<Esc>", "stopinsert", mode = "t", desc = "Exit Terminal Mode" },
         },
       },
     },
