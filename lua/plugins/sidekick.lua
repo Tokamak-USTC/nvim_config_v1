@@ -88,6 +88,9 @@ return {
           end
         end,
         keys = {
+          -- WARN: <Esc> is used here to leave terminal mode, so terminal apps will not receive it.
+          -- If sidekick is using tmux as the backend, you can try <C-[> as a substitute for <Esc>.
+          -- If that still does not work, try mapping another key to the tool's own exit action instead.
           stopinsert = { "<Esc>", "stopinsert", mode = "t", desc = "Exit Terminal Mode" },
         },
       },

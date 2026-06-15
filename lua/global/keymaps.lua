@@ -43,7 +43,7 @@ vim.keymap.set("n", "<leader>?", "?<C-r>+", { desc = "which_key_ignore" })
 vim.keymap.set("n", "<leader>p", '"0p', { desc = "Paste Last Yank" })
 vim.keymap.set("n", "<leader>P", '"0P', { desc = "which_key_ignore" })
 vim.keymap.set("n", "q", "<Nop>", { desc = "Disable macro recording" })
-vim.keymap.set("n", "<C-]>", "<Nop>", { desc = "Disable tag jump" })
+vim.keymap.set("t", "<C-]>", "<Nop>", { desc = "Intercept tmux prefix" })
 -- quick execution
 -- vim.keymap.set("n", "<leader>xs", "<cmd>source %<cr>", { desc = "Source current file" })
 -- vim.keymap.set("n", "<leader>xlf", "<cmd>luafile %<cr>", { desc = "Execute lua file" })
