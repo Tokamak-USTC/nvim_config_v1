@@ -344,6 +344,25 @@ return {
       timer:start(github_check_interval_ms, github_check_interval_ms, vim.schedule_wrap(refresh_github_status))
     end
 
+    local function setup_clock_checker()
+      local uv = vim.uv or vim.loop
+      local timer = rawget(vim, "_heirline_clock_timer")
+      if timer then
+        pcall(function()
+          timer:stop()
+          timer:close()
+        end)
+      end
+
+      timer = uv.new_timer()
+      if not timer then
+        return
+      end
+
+      rawset(vim, "_heirline_clock_timer", timer)
+      timer:start(1000, 1000, vim.schedule_wrap(redraw_statusline))
+    end
+
     local function truncate(str, max_width)
       if not str or str == "" then
         return ""
@@ -825,6 +844,7 @@ return {
     vim.o.laststatus = 3
     vim.o.showmode = false
     setup_github_status_checker()
+    setup_clock_checker()
     apply_statusline_bg()
     vim.api.nvim_create_autocmd("ColorScheme", {
       callback = apply_statusline_bg,
@@ -841,13 +861,15 @@ return {
     })
     vim.api.nvim_create_autocmd("VimLeavePre", {
       callback = function()
-        local timer = rawget(vim, "_heirline_github_timer")
-        if timer then
-          pcall(function()
-            timer:stop()
-            timer:close()
-          end)
-          rawset(vim, "_heirline_github_timer", nil)
+        for _, key in ipairs({ "_heirline_github_timer", "_heirline_clock_timer" }) do
+          local timer = rawget(vim, key)
+          if timer then
+            pcall(function()
+              timer:stop()
+              timer:close()
+            end)
+            rawset(vim, key, nil)
+          end
         end
       end,
     })
