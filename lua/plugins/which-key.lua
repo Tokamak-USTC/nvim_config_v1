@@ -44,6 +44,7 @@ return {
         { "<leader>gl", icon = { icon = " ", color = "green" } },
         { "<leader>:", icon = { icon = " ", color = "azure" }, desc = "Command History" },
         { "<leader>nd", icon = { icon = " ", color = "red" } },
+        { "<leader>z", icon = { icon = " ", color = "green" } },
         { "g,", desc = "Go to newer change position" },
         { "g;", desc = "Go to older change position" },
       },

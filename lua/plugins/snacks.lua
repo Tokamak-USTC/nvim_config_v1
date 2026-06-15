@@ -56,10 +56,18 @@ function dashboard.stop_timer()
   end
 end
 
+local function is_dashboard(buf)
+  return buf ~= nil and buf ~= 0 and vim.bo[buf].filetype == "snacks_dashboard"
+end
+
 function dashboard.start_timer()
   dashboard.glitch = dashboard.glitch or require("global.ui.animation").glitch()
   dashboard.stop_timer()
   dashboard.timer_id = vim.fn.timer_start(32, function()
+    local ok, buf = pcall(vim.api.nvim_get_current_buf)
+    if not ok or not is_dashboard(buf) then
+      return
+    end
     local logo, color = dashboard.glitch()
     if color == 0 then
       vim.api.nvim_set_hl(0, "SnacksDashboardLogo", { fg = "#30D7FF" })
@@ -189,6 +197,38 @@ local picker_config = {
     },
   },
 }
+
+local zoom_rules = {
+  filetypes = {
+    man = true,
+    snacks_dashboard = false,
+    snacks_picker_input = false,
+    snacks_picker_list = false,
+    sidekick_terminal = false,
+  },
+  buftypes = {
+    prompt = false,
+    nofile = false,
+  },
+}
+
+local function zoom_enabled(buf)
+  local bufnr = buf or vim.api.nvim_get_current_buf()
+  local filetype = vim.bo[bufnr].filetype
+  local buftype = vim.bo[bufnr].buftype
+
+  local filetype_rule = zoom_rules.filetypes[filetype]
+  if filetype_rule ~= nil then
+    return filetype_rule
+  end
+
+  local buftype_rule = zoom_rules.buftypes[buftype]
+  if buftype_rule ~= nil then
+    return buftype_rule
+  end
+  return true
+end
+
 -- stylua: ignore
 local snacks_keys = {
   { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete current buffer", mode = { "n" }, },
@@ -213,8 +253,8 @@ local snacks_keys = {
   { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "Document Symbols" },
   { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo Comments" },
   { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Grep Word(cwd)" },
+  { "<leader>z", function() if not zoom_enabled() then return end Snacks.zen.zoom() end, desc = "Toggle Zoom" }
 }
-
 return {
   "Tokamak-USTC/snacks.nvim",
   priority = 1000,
@@ -230,6 +270,7 @@ return {
       callback = dashboard.stop_timer,
     })
   end,
+
   ---@type snacks.Config
   opts = {
     animate = { enabled = false },
@@ -261,7 +302,9 @@ return {
     styles = {
       terminal = {
         keys = {
-          -- Use <Esc> to leave terminal mode; terminal apps will not receive it.
+          -- WARN: <Esc> is used here to leave terminal mode, so terminal apps will not receive it.
+          -- Keep Snacks.terminal for simple command execution.
+          -- If a CLI tool needs to receive <Esc>, open it in a tmux pane or Neovim's built-in terminal (:term) instead.
           term_normal = {
             "<Esc>",
             function()
