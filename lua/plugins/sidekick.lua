@@ -92,6 +92,10 @@ return {
           -- If sidekick is using tmux as the backend, you can try <C-[> as a substitute for <Esc>.
           -- If that still does not work, try mapping another key to the tool's own exit action instead.
           stopinsert = { "<Esc>", "stopinsert", mode = "t", desc = "Exit Terminal Mode" },
+          buffers = { "<C-b>", "buffers", mode = "n", desc = "Open Buffer Picker" },
+          files = { "<C-f>", "files", mode = "n", desc = "Open File Picker" },
+          hide_ctrl_z = { "<C-z>", "blur", mode = "n", desc = "Blur Terminal Window" },
+          prompt = { "<C-p>", "prompt", mode = "n", desc = "Insert Prompt or Context" },
         },
       },
     },
