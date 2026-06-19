@@ -19,13 +19,22 @@ vim.lsp.config("*", {
   root_markers = { ".git" },
 })
 
+-- stylua: ignore
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
-    vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "LSP: Go to definition" })
+    if client:supports_method("textDocument/inlayHint", args.buf) then
+      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    end
+
+    vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "LSP: Go to definitions" })
     vim.keymap.set("n", "gr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "LSP: Go to references" })
+    vim.keymap.set("n", "gi", Snacks.picker.lsp_incoming_calls, { buffer = args.buf, desc = "LSP: Go to incoming calls" })
+    vim.keymap.set("n", "go", Snacks.picker.lsp_outgoing_calls, { buffer = args.buf, desc = "LSP: Go to outgoing calls" })
+    vim.keymap.set("n", "gI", Snacks.picker.lsp_implementations, { buffer = args.buf, desc = "LSP: Go to implementations" })
+    vim.keymap.set("n", "gt", Snacks.picker.lsp_type_definitions, { buffer = args.buf, desc = "LSP: Go to type definitions" })
     vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename Symbol" })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code Actions" })
 

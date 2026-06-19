@@ -253,6 +253,7 @@ local snacks_keys = {
   { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "Document Symbols" },
   { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo Comments" },
   { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Grep Word(cwd)" },
+  { "<leader>cH", function() Snacks.toggle.inlay_hints():toggle() end, desc = "Toggle Inlay Hints" },
   { "<leader>z", function() if not zoom_enabled() then return end Snacks.zen.zoom() end, desc = "Toggle Zoom" }
 }
 return {
