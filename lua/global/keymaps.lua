@@ -19,6 +19,9 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to below window" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to above window" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
+-- navigation
+vim.keymap.set("n", "gl", "gi", { remap = false, desc = "Go to last insert" })
+
 -- buffer management
 vim.keymap.set("n", "<leader>bn", "<cmd>enew<cr>", { desc = "Create a new buffer" })
 vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to other buffer" })
