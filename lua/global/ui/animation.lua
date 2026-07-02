@@ -3,7 +3,7 @@ local M = {}
 M.glitch = function()
   local stages = {
     { stage_length = 60, mode = "static" },
-    { stage_length = 14, frame_start = 6, mode = "forward" },
+    { stage_length = 15, frame_start = 6, mode = "forward" },
     { stage_length = 20, mode = "static" },
     { stage_length = 8, frame_start = 7, mode = "backward" },
   }
