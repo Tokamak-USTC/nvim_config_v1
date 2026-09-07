@@ -37,7 +37,27 @@ local function patch_tmux_start()
     if not self.external and ret and ret.cmd then
       table.insert(ret.cmd, 2, "-f")
       table.insert(ret.cmd, 3, "/dev/null")
-      vim.list_extend(ret.cmd, { ";", "set-option", "destroy-unattached", "on" })
+
+      local http = vim.trim(vim.fn.system([[bash -ic 'echo -n $HTTP_PROXY'  2>/dev/null]]))
+      local https = vim.trim(vim.fn.system([[bash -ic 'echo -n $HTTPS_PROXY' 2>/dev/null]]))
+      if http ~= "" then
+        vim.list_extend(ret.cmd, { ";", "setenv", "-g", "HTTP_PROXY", http })
+      end
+      if https ~= "" then
+        vim.list_extend(ret.cmd, { ";", "setenv", "-g", "HTTPS_PROXY", https })
+      end
+
+      vim.list_extend(ret.cmd, {
+        ";",
+        "set-option",
+        "destroy-unattached",
+        "on",
+        ";",
+        "set-option",
+        "-s",
+        "escape-time",
+        "0",
+      })
     end
     return ret
   end
@@ -62,8 +82,6 @@ return {
       },
       tools = {
         codex = { is_proc = false },
-        coco = { cmd = { "coco" } },
-        traex = { cmd = { "traex" } },
       },
       prompts = {
         -- Global prompts
@@ -78,15 +96,7 @@ return {
         redo = "请根据刚才已明确的讨论，重新执行上一版修改。",
       },
       win = {
-        config = function(terminal)
-          if terminal.tool.name == "codex" then
-            terminal.opts.split.width = 0.3
-          elseif terminal.tool.name == "coco" then
-            terminal.opts.split.width = 0.3
-          elseif terminal.tool.name == "traex" then
-            terminal.opts.split.width = 0.3
-          end
-        end,
+        split = { width = 0.3 },
         keys = {
           -- WARN: <Esc> is used here to leave terminal mode, so terminal apps will not receive it.
           -- If sidekick is using tmux as the backend, you can try <C-[> as a substitute for <Esc>.
