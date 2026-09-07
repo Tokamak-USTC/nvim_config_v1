@@ -37,7 +37,27 @@ local function patch_tmux_start()
     if not self.external and ret and ret.cmd then
       table.insert(ret.cmd, 2, "-f")
       table.insert(ret.cmd, 3, "/dev/null")
-      vim.list_extend(ret.cmd, { ";", "set-option", "destroy-unattached", "on" })
+
+      local http = vim.trim(vim.fn.system([[bash -ic 'echo -n $HTTP_PROXY'  2>/dev/null]]))
+      local https = vim.trim(vim.fn.system([[bash -ic 'echo -n $HTTPS_PROXY' 2>/dev/null]]))
+      if http ~= "" then
+        vim.list_extend(ret.cmd, { ";", "setenv", "-g", "HTTP_PROXY", http })
+      end
+      if https ~= "" then
+        vim.list_extend(ret.cmd, { ";", "setenv", "-g", "HTTPS_PROXY", https })
+      end
+
+      vim.list_extend(ret.cmd, {
+        ";",
+        "set-option",
+        "destroy-unattached",
+        "on",
+        ";",
+        "set-option",
+        "-s",
+        "escape-time",
+        "0",
+      })
     end
     return ret
   end
