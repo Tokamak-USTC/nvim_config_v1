@@ -62,8 +62,7 @@ return {
       },
       tools = {
         codex = { is_proc = false },
-        coco = { cmd = { "coco" } },
-        traex = { cmd = { "traex" } },
+        claude = { is_proc = false },
       },
       prompts = {
         -- Global prompts
@@ -78,15 +77,7 @@ return {
         redo = "请根据刚才已明确的讨论，重新执行上一版修改。",
       },
       win = {
-        config = function(terminal)
-          if terminal.tool.name == "codex" then
-            terminal.opts.split.width = 0.3
-          elseif terminal.tool.name == "coco" then
-            terminal.opts.split.width = 0.3
-          elseif terminal.tool.name == "traex" then
-            terminal.opts.split.width = 0.3
-          end
-        end,
+        split = { width = 0.3 },
         keys = {
           -- WARN: <Esc> is used here to leave terminal mode, so terminal apps will not receive it.
           -- If sidekick is using tmux as the backend, you can try <C-[> as a substitute for <Esc>.
