@@ -18,6 +18,9 @@ return {
         enforce_regular_tabs = true,
         always_show_bufferline = false,
         auto_toggle_bufferline = true,
+        pick = {
+          alphabet = "abcdefghijklmnopqrstuvwxyz",
+        },
       },
     },
   },
